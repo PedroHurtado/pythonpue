@@ -1,19 +1,17 @@
 import copy
+from core.entitybase import EntityBase
 
 
-class Pizza:
+
+class Pizza(EntityBase):
     PROFIT = 1.2
 
     def __init__(self, id, name, description, url, ingredients):
-        self._id = (id,)
+        super().__init__(id)
         self._name = name
         self._description = description
         self._url = url
         self._ingredients = copy.deepcopy(ingredients)
-
-    @property
-    def id(self):
-        return self._id
 
     @property
     def name(self):
