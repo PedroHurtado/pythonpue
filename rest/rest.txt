@@ -30,9 +30,13 @@ ingredients={
         recuperar por una query
 
                  ----dominio----
-constrolador->servicio->infraestrctura->BB.DD
+controlador->servicio->infraestrctura->BB.DD
 
 dominio
 ingraestructura
+        BB.DD(SQL)
+        BB.DD(NO SQL)
+        ficheros
+        servicios externos
 servicio
 controlador

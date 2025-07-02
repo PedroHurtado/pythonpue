@@ -29,5 +29,6 @@ class Ingredient(EntityBase):
 
     @classmethod
     def ceate(cls, id, name, cost):
-        # ingredient.creates
+        # ingredient.creates factory method
+        # Ingredient.create()
         return cls(id, name, cost)
