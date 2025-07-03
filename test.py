@@ -1,32 +1,28 @@
-from uuid import uuid4
-class Ingredient:
-    def __init__(self,id:uuid4,name:str,cost:float):
-        self._id= id
-        self._name = name
-        self._cost = cost
-    def __eq__(self, value):
-        if not isinstance(value,Ingredient):
-            return False
-        return self._id == value._id
-    def __hash__(self):
-        return hash(self._id)
+import sys
+import importlib.util
+from pathlib import Path
 
-tomate = Ingredient(1,"Tomate",2.0)
-tomate1 = Ingredient(1,"Tomate",2.0)
+sys.path.insert(0, str(Path('.').resolve()))
 
-ingredients = set()
-ingredients.add(tomate)
-ingredients.add(tomate1)
+def cargar_modulos_dinamicamente(base_path: str, extension='.py'):
+    base_path = Path(base_path)
+    modulos = {}
+    files = base_path.rglob(f'*{extension}')
+    for py_file in files:
+        if py_file.name == '__init__.py':
+            continue
 
+        modulo_relativo = py_file.relative_to(base_path).with_suffix('')
+        modulo_nombre = '.'.join(modulo_relativo.parts)
+        ruta_modulo = py_file.resolve()
 
-print(tomate1==tomate) #false
-print(len(ingredients))
+        spec = importlib.util.spec_from_file_location(modulo_nombre, ruta_modulo)
+        modulo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modulo)
 
-tomate=1
-tomate1=1
+        modulos[modulo_nombre] = modulo
 
-numbers = set()
-numbers.add(tomate)
-numbers.add(tomate1)
-print(tomate==tomate1) #true
-print(len(numbers))
+    return modulos
+
+modules = cargar_modulos_dinamicamente("app")
+print(modules)

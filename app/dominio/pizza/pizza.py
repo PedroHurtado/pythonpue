@@ -1,5 +1,5 @@
 import copy
-from core.entitybase import EntityBase
+from app.core.entitybase import EntityBase
 
 
 

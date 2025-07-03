@@ -1,4 +1,4 @@
-from core.entitybase import EntityBase
+from app.core.entitybase import EntityBase
 
 class Ingredient(EntityBase):
     def __init__(self, id, name, cost):

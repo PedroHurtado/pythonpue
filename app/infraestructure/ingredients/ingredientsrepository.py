@@ -1,5 +1,5 @@
-from core.repository import Add, Update, Remove
-from dominio.ingredient.ingredient import Ingredient
+from app.core.repository import Add, Update, Remove
+from app.dominio.ingredient.ingredient import Ingredient
 
 
 class IngredientRepository(Add, Update, Remove):

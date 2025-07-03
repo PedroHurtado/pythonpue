@@ -1,6 +1,7 @@
-from data import Data
-from entitybase import EntityBase
-from notfoundexception import NotFoundException
+from app.core.data import Data
+from app.core.entitybase import EntityBase
+from app.core.notfoundexception import NotFoundException
+
 class Add(Data):
     def add(self,entity:EntityBase):
         self.data.add(entity)        
