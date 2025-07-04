@@ -2,6 +2,7 @@ import sys
 import importlib.util
 from pathlib import Path
 from flask import Flask
+from app.core.errors import error_handlers
 
 sys.path.insert(0, str(Path('.').resolve()))
 
@@ -33,6 +34,7 @@ app = Flask(__name__)
 blueprints = cargar_modulos_y_blueprints("app/features")
 for bp in blueprints:
     app.register_blueprint(bp)
+error_handlers(app)
 
 if __name__ == "__main__":
     app.run(debug=True)
