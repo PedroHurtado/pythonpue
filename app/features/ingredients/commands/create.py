@@ -18,7 +18,7 @@ class Request(CustomBaseModel):
 
 
 class Response(CustomBaseModel):
-    id: uuid
+    id: uuid.UUID
     name: str
     cost: float
 
