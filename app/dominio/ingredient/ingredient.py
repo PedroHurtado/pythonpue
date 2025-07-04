@@ -28,7 +28,7 @@ class Ingredient(EntityBase):
         self._cost = cost
 
     @classmethod
-    def ceate(cls, id, name, cost):
+    def create(cls, id, name, cost):
         # ingredient.creates factory method
         # Ingredient.create()
         return cls(id, name, cost)

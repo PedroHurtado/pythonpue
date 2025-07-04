@@ -1,28 +1,40 @@
 import uuid
 from app.dominio.ingredient.ingredient import Ingredient
+from app.core.custombasemodel import CustomBaseModel
 from flask import Blueprint
-from app.infraestructure.ingredients.ingredientsrepository import ingredient_repository as respository
+from pydantic import StringConstraints
+from typing import Annotated
+from flask_pydantic import validate
+from app.infraestructure.ingredients.ingredientsrepository import (
+    ingredient_repository as respository,
+)
 
-bp = Blueprint('ingredient_create', __name__)
+bp = Blueprint("ingredient_create", __name__)
 
-class Request:
-    name:str
-    cost:float
 
-class Response:
-    id:uuid
-    name:str
-    cost:float
+class Request(CustomBaseModel):
+    name: Annotated[str, StringConstraints(min_length=1)]
+    cost: float
 
-def service(req:Request)->Response:
-    ingredient = Ingredient.ceate(
-        uuid.uuid4(),
-        req.name,
-        req.cost
-    )
-    respository.add(ingredient)    
-    return Response(ingredient.id, ingredient.name,ingredient.cost)
 
-@bp.route("/ingredients")
-def controller(body:Request):
-    return service(body),201
+class Response(CustomBaseModel):
+    id: uuid
+    name: str
+    cost: float
+
+
+class Service:
+    def __init__(self, repository):
+        self._repository = repository
+    def __call__(self, req: Request) -> Response:
+        ingredient = Ingredient.create(uuid.uuid4(), req.name, req.cost)
+        self._repository.add(ingredient)
+        return Response(id=ingredient.id, name=ingredient.name, cost=ingredient.cost)
+
+
+service = Service(respository)
+
+@bp.route("/ingredients", methods=["POST"])
+@validate()
+def controller(body: Request):
+    return service(body), 201
