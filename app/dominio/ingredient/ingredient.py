@@ -21,9 +21,8 @@ class Ingredient(EntityBase):
     def cost(self):
         return self._cost
 
-    def update(self, id, name, cost):
-        # ingredients.update
-        self._id = id
+    def update(self,  name, cost):
+        # ingredients.update        
         self._name = name
         self._cost = cost
 
